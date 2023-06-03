@@ -3,8 +3,11 @@ package tacos.web;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +53,13 @@ public class DesignTacoController {
         return "design";
     }
 
+    @PostMapping
+    public String processTaco (Taco taco) {
+        log.info("Processing taco: " + taco);
+
+        return "redirect:/orders/current";
+    }
+
     private Iterable<Ingredient> filterByType(
             List<Ingredient> ingredients, Type type) {
         return ingredients
@@ -57,4 +67,5 @@ public class DesignTacoController {
                 .filter(x -> x.getType().equals(type))
                 .collect(Collectors.toList());
     }
+
 }
